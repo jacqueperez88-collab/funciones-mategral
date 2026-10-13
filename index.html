@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funciones Matemáticas - Prof. PEREZ Jacqueline</title>
+
+<!-- MathJax para renderizar LaTeX -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    color: #2d4a3e;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #a8d5ba 0%, #7bc47f 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  header h1 { font-size: 2.2em; margin-bottom: 8px; }
+  header .subtitulo { font-size: 1.05em; opacity: 0.97; margin: 6px 0; line-height: 1.5; }
+  header .autor { font-size: 1em; opacity: 0.95; margin-top: 10px; font-style: italic; }
+  nav {
+    background: #c8e6c9;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: #2d4a3e;
+    padding: 15px 22px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+  }
+  nav button:hover { background: #a5d6a7; }
+  nav button.active {
+    background: #81c784;
+    color: white;
+    border-bottom: 3px solid #388e3c;
+  }
+  main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+  }
+  .tab-content {
+    display: none;
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    animation: fadeIn 0.4s;
+  }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h2 {
+    color: #388e3c;
+    border-bottom: 3px solid #a8d5ba;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  h3 { color: #5fa873; margin: 20px 0 10px 0; }
+  p, li { line-height: 1.7; margin-bottom: 10px; }
+  ul, ol { margin-left: 25px; margin-bottom: 15px; }
+  .formula {
+    background: #f1f8e9;
+    border-left: 4px solid #7bc47f;
+    padding: 14px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-size: 1.1em;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .definition-box {
+    background: #e8f5e9;
+    border: 2px solid #a8d5ba;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+  }
+  .interactive-section {
+    background: #f9fdf9;
+    border: 2px dashed #7bc47f;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 25px 0;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 15px 0;
+    justify-content: center;
+  }
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
+  }
+  .control-group label {
+    font-weight: bold;
+    color: #388e3c;
+    margin-bottom: 5px;
+  }
+  .control-group input[type="range"] {
+    width: 150px;
+    accent-color: #5fa873;
+  }
+  .control-group .value {
+    background: #a8d5ba;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+    min-width: 50px;
+    text-align: center;
+  }
+  canvas {
+    background: white;
+    border: 2px solid #c8e6c9;
+    border-radius: 10px;
+    display: block;
+    margin: 15px auto;
+    max-width: 100%;
+  }
+  .function-display {
+    background: #388e3c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.3em;
+    margin: 15px 0;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .exercise {
+    background: #fff8e1;
+    border-left: 5px solid #ffb74d;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border-radius: 6px;
+  }
+  .exercise strong { color: #e65100; }
+  .solution {
+    background: #e1f5fe;
+    border-left: 5px solid #4fc3f7;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border-radius: 6px;
+    display: none;
+  }
+  .solution.show { display: block; }
+  .btn {
+    background: #7bc47f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    margin: 5px 5px 5px 0;
+    transition: background 0.3s;
+  }
+  .btn:hover { background: #5fa873; }
+  .info-box {
+    background: #e8f5e9;
+    border: 1px solid #a8d5ba;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  th, td {
+    border: 1px solid #a8d5ba;
+    padding: 10px;
+    text-align: center;
+  }
+  th { background: #a8d5ba; color: white; }
+  tr:nth-child(even) { background: #f1f8e9; }
+  footer {
+    background: #388e3c;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+  }
+  footer a { color: #c8e6c9; }
+  .license-box {
+    background: rgba(255,255,255,0.15);
+    padding: 18px;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: inline-block;
+    max-width: 600px;
+  }
+  .license-box img {
+    height: 50px;
+    margin: 10px 0;
+  }
+  .upload-area {
+    border: 3px dashed #7bc47f;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    background: #f1f8e9;
+    margin: 20px 0;
+  }
+  .upload-area input[type="file"] {
+    margin: 15px 0;
+    padding: 10px;
+  }
+  .note {
+    background: #fff3e0;
+    border-left: 4px solid #ffb74d;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+  }
+  .btn-descarga-secundario {
+    display: inline-block;
+    background: #7bc47f;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin: 10px 5px;
+  }
+  .btn-descarga-secundario:hover {
+    background: #5fa873;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  @media (max-width: 700px) {
+    nav button { padding: 10px 12px; font-size: 0.85em; }
+    .tab-content { padding: 20px; }
+    header h1 { font-size: 1.5em; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📐 Funciones Matemáticas</h1>
+  <p class="subtitulo">
+    Recurso interactivo destinado a los y las estudiantes de <strong>Primer Año</strong> de:<br>
+    🖥️ Tecnicatura Universitaria en Desarrollo Web (TUDW)<br>
+    ️ Tecnicatura Universitaria en Administración de Sistemas y Software Libre (TUSSL)
+  </p>
+  <p class="autor">Universidad Nacional del Comahue · 2026 · Prof. PEREZ Jacqueline</p>
+</header>
+
+<nav>
+  <button class="tab-btn active" onclick="showTab('definicion', this)">Definición</button>
+  <button class="tab-btn" onclick="showTab('lineal', this)">Función Lineal</button>
+  <button class="tab-btn" onclick="showTab('cuadratica', this)">Función Cuadrática</button>
+  <button class="tab-btn" onclick="showTab('cubica', this)">Función Cúbica</button>
+  <button class="tab-btn" onclick="showTab('partes', this)">Función por Partes</button>
+  <button class="tab-btn" onclick="showTab('docente', this)">Guía Docente</button>
+</nav>
+
+<main>
+
+<!-- ============ DEFINICIÓN ============ -->
+<section id="definicion" class="tab-content active">
+  <h2>📖 Definición de Función</h2>
+  <p>Cuando existe una relación entre dos magnitudes, $x$ e $y$, si el valor que adopta una de ellas ($y$) depende del valor asignado a la otra ($x$), decimos que $y$ es la <strong>variable dependiente</strong> y que $x$ es la <strong>variable independiente</strong>, y podemos escribir $y = f(x)$.</p>
+
+  <div class="definition-box">
+    <h3>Definición formal</h3>
+    <p>Decimos que $f$ es una función de un conjunto $A$ en otro conjunto $B$, y escribimos $f: A \to B$, si y sólo si para cada elemento $x \in A$ existe un <strong>único</strong> elemento $y \in B$ tal que $f(x) = y$.</p>
+    <div class="formula">
+      $$\forall\, x \in A,\; \exists!\, y \in B \;/\; f(x) = y$$
+    </div>
+  </div>
+
+  <h3>Elementos de una función</h3>
+  <ul>
+    <li><strong>Dominio ($\text{Dom}\,f$):</strong> conjunto de partida, valores permitidos para $x$.</li>
+    <li><strong>Codominio:</strong> conjunto de llegada.</li>
+    <li><strong>Imagen ($\text{Im}\,f$):</strong> subconjunto del codominio que efectivamente se alcanza:
+      $$\text{Im}(f) = \{\, y \in B : \exists\, x \in A \;/\; f(x) = y \,\}$$
+    </li>
+  </ul>
+
+  <h3>Representación gráfica</h3>
+  <p>Una curva en el plano es la gráfica de una función si y sólo si <strong>ninguna recta vertical la interseca más de una vez</strong> (prueba de la recta vertical).</p>
+
+  <div class="info-box">
+    <strong>🔍 ¿Cómo hallar el dominio?</strong>
+    <p>Si no se especifica, el dominio es el mayor conjunto numérico donde tenga sentido la expresión. Por ejemplo:</p>
+    <ul>
+      <li>$f(x) = x^2 \;\Rightarrow\; \text{Dom}(f) = \mathbb{R}$</li>
+      <li>$f(x) = \sqrt{x} \;\Rightarrow\; \text{Dom}(f) = [0, +\infty)$</li>
+      <li>$f(x) = \dfrac{2x-5}{x^2-5x+6} \;\Rightarrow\; \text{Dom}(f) = \mathbb{R} \setminus \{2, 3\}$</li>
+    </ul>
+  </div>
+
+  <h3>Clasificación de funciones</h3>
+  <table>
+    <tr><th>Tipo</th><th>Subtipos</th></tr>
+    <tr><td><strong>Algebraicas</strong></td><td>Polinómicas, Racionales, Irracionales</td></tr>
+    <tr><td><strong>Trascendentes</strong></td><td>Exponenciales, Logarítmicas, Trigonométricas</td></tr>
+  </table>
+
+  <div class="note">
+    💡 En este recurso estudiaremos las funciones <strong>polinómicas</strong>: lineal (grado 1), cuadrática (grado 2) y cúbica (grado 3), además de las funciones definidas por partes.
+  </div>
+</section>
+
+<!-- ============ FUNCIÓN LINEAL ============ -->
+<section id="lineal" class="tab-content">
+  <h2>📈 Función Lineal</h2>
+  <p>Una función lineal es una función $f: \mathbb{R} \to \mathbb{R}$ de la forma:</p>
+  <div class="formula">$$f(x) = a \cdot x + b \qquad \text{con } a, b \in \mathbb{R}$$</div>
+  <p>Gráficamente se representa mediante una <strong>recta</strong> en el plano.</p>
+
+  <h3>Elementos característicos</h3>
+  <ul>
+    <li><strong>Pendiente ($a$):</strong> indica la inclinación de la recta.
+      $$a = \tan(\alpha) = \frac{\Delta y}{\Delta x} = \frac{y_1 - y_0}{x_1 - x_0}$$
+    </li>
+    <li><strong>Ordenada al origen ($b$):</strong> punto donde la recta corta al eje $y$, es decir $(0, b)$.</li>
+    <li><strong>Raíz:</strong> valor de $x$ donde $f(x) = 0 \;\Rightarrow\; x = -\dfrac{b}{a}$. Punto $\left(-\dfrac{b}{a},\, 0\right)$.</li>
+  </ul>
+
+  <h3>Crecimiento y decrecimiento</h3>
+  <ul>
+    <li>Si $a > 0 \;\Rightarrow\;$ función <strong>creciente</strong></li>
+    <li>Si $a < 0 \;\Rightarrow\;$ función <strong>decreciente</strong></li>
+    <li>Si $a = 0 \;\Rightarrow\;$ función <strong>constante</strong> (recta horizontal $y = b$)</li>
+  </ul>
+
+  <h3>Rectas paralelas y perpendiculares</h3>
+  <ul>
+    <li><strong>Paralelas:</strong> misma pendiente $\;a_1 = a_2\;$</li>
+    <li><strong>Perpendiculares:</strong> la pendiente de una es la inversa y opuesta de la otra $\;a_1 = -\dfrac{1}{a_2}\;$</li>
+  </ul>
+
+  <div class="interactive-section">
+    <h3>🎛️ Gráfico interactivo</h3>
+    <p>Modificá los valores de $a$ (pendiente) y $b$ (ordenada al origen) para ver cómo cambia la recta:</p>
+    <div class="controls">
+      <div class="control-group">
+        <label>Pendiente ($a$)</label>
+        <input type="range" id="a-lineal" min="-5" max="5" step="0.5" value="1" oninput="updateLineal()">
+        <div class="value" id="val-a">1</div>
+      </div>
+      <div class="control-group">
+        <label>Ordenada al origen ($b$)</label>
+        <input type="range" id="b-lineal" min="-5" max="5" step="0.5" value="0" oninput="updateLineal()">
+        <div class="value" id="val-b">0</div>
+      </div>
+    </div>
+    <div class="function-display" id="func-lineal">$$f(x) = 1 \cdot x + 0$$</div>
+    <canvas id="canvas-lineal" width="500" height="500"></canvas>
+    <div class="info-box">
+      <strong>📊 Información:</strong>
+      <ul id="info-lineal">
+        <li>Raíz: $x = 0$</li>
+        <li>Ordenada al origen: $(0, 0)$</li>
+        <li>Función: creciente</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>📝 Ejercicios</h3>
+
+  <div class="exercise">
+    <strong>Ejercicio 1:</strong> Encontrá la fórmula de la función lineal sabiendo que tiene pendiente $-3$ y raíz $4$.
+    <br><button class="btn" onclick="toggleSol('sol-l1')">Ver solución</button>
+    <div class="solution" id="sol-l1">
+      <p>Si la raíz es $4$, entonces $f(4) = 0$. Usando $f(x) = -3x + b$:</p>
+      <p>$0 = -3 \cdot 4 + b \;\Rightarrow\; b = 12$</p>
+      <p><strong>$f(x) = -3x + 12$</strong></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 2:</strong> Pendiente $-2$ y ordenada al origen $7$.
+    <br><button class="btn" onclick="toggleSol('sol-l2')">Ver solución</button>
+    <div class="solution" id="sol-l2">
+      <p><strong>$f(x) = -2x + 7$</strong></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 3:</strong> Pasa por los puntos $(-1, 2)$ y $\left(\tfrac{1}{2}, 5\right)$.
+    <br><button class="btn" onclick="toggleSol('sol-l3')">Ver solución</button>
+    <div class="solution" id="sol-l3">
+      <p>Pendiente: $a = \dfrac{5-2}{\frac{1}{2}-(-1)} = \dfrac{3}{\frac{3}{2}} = 2$</p>
+      <p>Usando el punto $(-1, 2)$: $2 = 2 \cdot (-1) + b \;\Rightarrow\; b = 4$</p>
+      <p><strong>$f(x) = 2x + 4$</strong></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 4:</strong> Encontrar una recta paralela a $y = -3x + 5$ que pase por $(-1, 9)$.
+    <br><button class="btn" onclick="toggleSol('sol-l4')">Ver solución</button>
+    <div class="solution" id="sol-l4">
+      <p>Paralela $\Rightarrow$ misma pendiente: $a = -3$</p>
+      <p>$9 = -3 \cdot (-1) + b \;\Rightarrow\; b = 6$</p>
+      <p><strong>$y = -3x + 6$</strong></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 5:</strong> Recta perpendicular a $y = -5x - 8$ que pase por $(1, -3)$.
+    <br><button class="btn" onclick="toggleSol('sol-l5')">Ver solución</button>
+    <div class="solution" id="sol-l5">
+      <p>Perpendicular $\Rightarrow$ $a = -\dfrac{1}{-5} = \dfrac{1}{5}$</p>
+      <p>$-3 = \dfrac{1}{5} \cdot 1 + b \;\Rightarrow\; b = -\dfrac{16}{5}$</p>
+      <p><strong>$y = \dfrac{1}{5}x - \dfrac{16}{5}$</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUNCIÓN CUADRÁTICA ============ -->
+<section id="cuadratica" class="tab-content">
+  <h2>📉 Función Cuadrática</h2>
+  <p>Una función cuadrática es una función polinómica de grado 2:</p>
+  <div class="formula">$$f(x) = a\,x^2 + b\,x + c \qquad \text{con } a \neq 0$$</div>
+  <p>Su gráfica es una <strong>parábola</strong>.</p>
+
+  <h3>Forma canónica</h3>
+  <div class="formula">$$f(x) = a\,(x - h)^2 + k$$</div>
+  <ul>
+    <li><strong>Vértice:</strong> $V = (h, k)$</li>
+    <li><strong>Eje de simetría:</strong> $x = h$</li>
+    <li>Si $a > 0 \;\Rightarrow\;$ parábola abre hacia arriba (cóncava hacia arriba)</li>
+    <li>Si $a < 0 \;\Rightarrow\;$ parábola abre hacia abajo (cóncava hacia abajo)</li>
+  </ul>
+
+  <h3>Raíces</h3>
+  <p>Se obtienen resolviendo $a\,x^2 + b\,x + c = 0$ con la fórmula:</p>
+  <div class="formula">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+  <p>El <strong>discriminante</strong> $\Delta = b^2 - 4ac$ determina la cantidad de raíces reales:</p>
+  <ul>
+    <li>$\Delta > 0 \;\Rightarrow\;$ dos raíces reales distintas</li>
+    <li>$\Delta = 0 \;\Rightarrow\;$ una raíz doble</li>
+    <li>$\Delta < 0 \;\Rightarrow\;$ no tiene raíces reales</li>
+  </ul>
+
+  <div class="interactive-section">
+    <h3>🎛️ Gráfico interactivo (forma canónica)</h3>
+    <p>Modificá los parámetros $a$, $h$ y $k$ para explorar la parábola:</p>
+    <div class="controls">
+      <div class="control-group">
+        <label>$a$ (amplitud/sentido)</label>
+        <input type="range" id="a-cuad" min="-3" max="3" step="0.25" value="1" oninput="updateCuad()">
+        <div class="value" id="val-ac">1</div>
+      </div>
+      <div class="control-group">
+        <label>$h$ (desplazamiento horizontal)</label>
+        <input type="range" id="h-cuad" min="-5" max="5" step="0.5" value="0" oninput="updateCuad()">
+        <div class="value" id="val-hc">0</div>
+      </div>
+      <div class="control-group">
+        <label>$k$ (desplazamiento vertical)</label>
+        <input type="range" id="k-cuad" min="-5" max="5" step="0.5" value="0" oninput="updateCuad()">
+        <div class="value" id="val-kc">0</div>
+      </div>
+    </div>
+    <div class="function-display" id="func-cuad">$$f(x) = 1 \cdot (x - 0)^2 + 0$$</div>
+    <canvas id="canvas-cuad" width="500" height="500"></canvas>
+    <div class="info-box">
+      <strong>📊 Información:</strong>
+      <ul id="info-cuad">
+        <li>Vértice: $(0, 0)$</li>
+        <li>Eje de simetría: $x = 0$</li>
+        <li>Concavidad: hacia arriba</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>📝 Ejercicios</h3>
+
+  <div class="exercise">
+    <strong>Ejercicio 1:</strong> Hallar la función cuadrática con vértice en $(1, 4)$ que pase por $(0, 2)$.
+    <br><button class="btn" onclick="toggleSol('sol-c1')">Ver solución</button>
+    <div class="solution" id="sol-c1">
+      <p>Forma canónica: $f(x) = a\,(x - 1)^2 + 4$</p>
+      <p>Reemplazando $(0, 2)$: $2 = a\,(0 - 1)^2 + 4 \;\Rightarrow\; a = -2$</p>
+      <p><strong>$f(x) = -2(x - 1)^2 + 4$</strong></p>
+      <p>Forma polinómica: $f(x) = -2x^2 + 4x + 2$</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 2:</strong> Vértice en $(0, -4)$ y las raíces se encuentran a $6$ unidades del eje de simetría.
+    <br><button class="btn" onclick="toggleSol('sol-c2')">Ver solución</button>
+    <div class="solution" id="sol-c2">
+      <p>Raíces: $x = -6$ y $x = 6$. Vértice $(0, -4)$.</p>
+      <p>$f(x) = a\,x^2 - 4$. Reemplazando $(6, 0)$: $0 = a \cdot 36 - 4 \;\Rightarrow\; a = \dfrac{1}{9}$</p>
+      <p><strong>$f(x) = \dfrac{1}{9}x^2 - 4$</strong></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 3:</strong> Corta al eje $x$ en $x = -1$ y $x = 4$, y pasa por $(1, 5)$.
+    <br><button class="btn" onclick="toggleSol('sol-c3')">Ver solución</button>
+    <div class="solution" id="sol-c3">
+      <p>Forma factorizada: $f(x) = a\,(x + 1)(x - 4)$</p>
+      <p>Reemplazando $(1, 5)$: $5 = a \cdot (2) \cdot (-3) \;\Rightarrow\; a = -\dfrac{5}{6}$</p>
+      <p><strong>$f(x) = -\dfrac{5}{6}(x + 1)(x - 4)$</strong></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 4 (optimización):</strong> El perímetro de un rectángulo es $50$ cm.
+    <br>a) Expresar el área en función de uno de sus lados.
+    <br>b) ¿Cuánto deben medir los lados para que el área sea máxima?
+    <br><button class="btn" onclick="toggleSol('sol-c4')">Ver solución</button>
+    <div class="solution" id="sol-c4">
+      <p>Si un lado es $x$, el otro es $(25 - x)$.</p>
+      <p>a) <strong>$A(x) = x \cdot (25 - x) = -x^2 + 25x$</strong></p>
+      <p>b) Vértice en $x = -\dfrac{25}{2 \cdot (-1)} = 12{,}5$ cm. Los lados miden <strong>$12{,}5$ cm $\times$ $12{,}5$ cm</strong> (es un cuadrado).</p>
+      <p>Área máxima: $A(12{,}5) = 156{,}25$ cm²</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 5 (costos):</strong> $C(x) = 90000 - 20x + 0{,}0025\,x^2$
+    <br>¿Qué cantidad de netbooks conviene producir para que el costo sea mínimo?
+    <br><button class="btn" onclick="toggleSol('sol-c5')">Ver solución</button>
+    <div class="solution" id="sol-c5">
+      <p>El mínimo está en el vértice: $x = -\dfrac{-20}{2 \cdot 0{,}0025} = \dfrac{20}{0{,}005} = \mathbf{4000}$ netbooks</p>
+      <p>Cost
