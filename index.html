@@ -7,12 +7,22 @@
 
 <!-- MathJax para renderizar LaTeX -->
 <script>
-MathJax = {
+window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
   },
-  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  },
+  startup: {
+    pageReady: () => {
+      return MathJax.startup.defaultPageReady().then(() => {
+        console.log('✅ MathJax cargado correctamente');
+      });
+    }
+  }
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
@@ -284,7 +294,7 @@ MathJax = {
   <p class="subtitulo">
     Recurso interactivo destinado a los y las estudiantes de <strong>Primer Año</strong> de:<br>
     🖥️ Tecnicatura Universitaria en Desarrollo Web (TUDW)<br>
-    ️ Tecnicatura Universitaria en Administración de Sistemas y Software Libre (TUSSL)
+    ⚙️ Tecnicatura Universitaria en Administración de Sistemas y Software Libre (TUSSL)
   </p>
   <p class="autor">Universidad Nacional del Comahue · 2026 · Prof. PEREZ Jacqueline</p>
 </header>
@@ -377,7 +387,7 @@ MathJax = {
   </ul>
 
   <div class="interactive-section">
-    <h3>🎛️ Gráfico interactivo</h3>
+    <h3>️ Gráfico interactivo</h3>
     <p>Modificá los valores de $a$ (pendiente) y $b$ (ordenada al origen) para ver cómo cambia la recta:</p>
     <div class="controls">
       <div class="control-group">
@@ -394,7 +404,7 @@ MathJax = {
     <div class="function-display" id="func-lineal">$$f(x) = 1 \cdot x + 0$$</div>
     <canvas id="canvas-lineal" width="500" height="500"></canvas>
     <div class="info-box">
-      <strong>📊 Información:</strong>
+      <strong> Información:</strong>
       <ul id="info-lineal">
         <li>Raíz: $x = 0$</li>
         <li>Ordenada al origen: $(0, 0)$</li>
@@ -564,7 +574,482 @@ MathJax = {
     <br><button class="btn" onclick="toggleSol('sol-c5')">Ver solución</button>
     <div class="solution" id="sol-c5">
       <p>El mínimo está en el vértice: $x = -\dfrac{-20}{2 \cdot 0{,}0025} = \dfrac{20}{0{,}005} = \mathbf{4000}$ netbooks</p>
-      <p>Cost
+      <p>Costo mínimo: $C(4000) = 90000 - 80000 + 40000 = \mathbf{50000}$ dólares</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUNCIÓN CÚBICA ============ -->
+<section id="cubica" class="tab-content">
+  <h2>📊 Función Cúbica</h2>
+  <p>La función cúbica tiene tres formas de representación:</p>
+  <div class="formula">$$\text{POLINÓMICA:}\quad f(x) = a\,x^3 + b\,x^2 + c\,x + d \qquad (a \neq 0)$$</div>
+  <div class="formula">$$\text{CANÓNICA:}\quad f(x) = a\,(x - h)^3 + k$$</div>
+  <div class="formula">$$\text{FACTORIZADA:}\quad f(x) = a\,(x - x_1)(x - x_2)(x - x_3)$$</div>
+
+  <h3>Características</h3>
+  <ul>
+    <li><strong>Dominio e Imagen:</strong> $\mathbb{R}$</li>
+    <li>Si $a > 0 \;\Rightarrow\;$ la función es <strong>creciente</strong> en todo su dominio</li>
+    <li>Si $a < 0 \;\Rightarrow\;$ la función es <strong>decreciente</strong> en todo su dominio</li>
+    <li>Presenta un <strong>punto de inflexión</strong> $(h, k)$ donde cambia la concavidad</li>
+  </ul>
+
+  <div class="interactive-section">
+    <h3>🎛️ Gráfico interactivo</h3>
+    <p>Modificá los parámetros $a$, $h$ y $k$:</p>
+    <div class="controls">
+      <div class="control-group">
+        <label>$a$</label>
+        <input type="range" id="a-cub" min="-3" max="3" step="0.25" value="1" oninput="updateCub()">
+        <div class="value" id="val-acub">1</div>
+      </div>
+      <div class="control-group">
+        <label>$h$ (desplazamiento horizontal)</label>
+        <input type="range" id="h-cub" min="-5" max="5" step="0.5" value="0" oninput="updateCub()">
+        <div class="value" id="val-hcub">0</div>
+      </div>
+      <div class="control-group">
+        <label>$k$ (desplazamiento vertical)</label>
+        <input type="range" id="k-cub" min="-5" max="5" step="0.5" value="0" oninput="updateCub()">
+        <div class="value" id="val-kcub">0</div>
+      </div>
+    </div>
+    <div class="function-display" id="func-cub">$$f(x) = 1 \cdot (x - 0)^3 + 0$$</div>
+    <canvas id="canvas-cub" width="500" height="500"></canvas>
+    <div class="info-box">
+      <strong>📊 Información:</strong>
+      <ul id="info-cub">
+        <li>Punto de inflexión: $(0, 0)$</li>
+        <li>Función: creciente en todo $\mathbb{R}$</li>
+        <li>$\text{Dom}(f) = \mathbb{R}$ · $\text{Im}(f) = \mathbb{R}$</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>📝 Ejercicios</h3>
+
+  <div class="exercise">
+    <strong>Ejercicio 1:</strong> $f(x) = -x^3 + 2$. Hallar intersecciones con los ejes.
+    <br><button class="btn" onclick="toggleSol('sol-cu1')">Ver solución</button>
+    <div class="solution" id="sol-cu1">
+      <p><strong>Eje $y$:</strong> $f(0) = 2 \;\Rightarrow\;$ punto $(0, 2)$</p>
+      <p><strong>Eje $x$:</strong> $-x^3 + 2 = 0 \;\Rightarrow\; x^3 = 2 \;\Rightarrow\; x = \sqrt[3]{2} \approx 1{,}26 \;\Rightarrow\;$ punto $(\sqrt[3]{2},\, 0)$</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 2:</strong> $h(x) = -(x+1)^3 - 1$. Hallar intersecciones con los ejes.
+    <br><button class="btn" onclick="toggleSol('sol-cu2')">Ver solución</button>
+    <div class="solution" id="sol-cu2">
+      <p><strong>Eje $y$:</strong> $h(0) = -(1)^3 - 1 = -2 \;\Rightarrow\;$ punto $(0, -2)$</p>
+      <p><strong>Eje $x$:</strong> $-(x+1)^3 - 1 = 0 \;\Rightarrow\; (x+1)^3 = -1 \;\Rightarrow\; x+1 = -1 \;\Rightarrow\; x = -2 \;\Rightarrow\;$ punto $(-2, 0)$</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <strong>Ejercicio 3:</strong> Sea $f(x) = 2(x+1)^3 + 2$. Hallar raíces, intersecciones y forma factorizada.
+    <br><button class="btn" onclick="toggleSol('sol-cu3')">Ver solución</button>
+    <div class="solution" id="sol-cu3">
+      <p><strong>Eje $y$:</strong> $f(0) = 2(1)^3 + 2 = 4 \;\Rightarrow\; (0, 4)$</p>
+      <p><strong>Eje $x$:</strong> $2(x+1)^3 + 2 = 0 \;\Rightarrow\; (x+1)^3 = -1 \;\Rightarrow\; x = -2 \;\Rightarrow\; (-2, 0)$</p>
+      <p><strong>Forma factorizada:</strong> $f(x) = 2(x+2)^3$ (raíz de multiplicidad 3)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUNCIÓN POR PARTES ============ -->
+<section id="partes" class="tab-content">
+  <h2> Función Definida por Partes</h2>
+  <p>Existen funciones que no pueden representarse mediante una única expresión. En estos casos, dividimos el dominio en partes, de tal forma que para cada parte se aplica una expresión diferente.</p>
+
+  <h3>Ejemplo clásico</h3>
+  <div class="formula">
+    $$f(x) = \begin{cases} -1 & \text{si } x < 0 \\ \phantom{-}1 & \text{si } x \geq 0 \end{cases}$$
+  </div>
+
+  <h3>Ejemplo 2</h3>
+  <div class="formula">
+    $$f(x) = \begin{cases} 2x + 1 & \text{si } x < -1 \\ \phantom{2x+{}}4 & \text{si } -1 \leq x \leq 3 \\ \phantom{2x+{}}3 & \text{si } x > 3 \end{cases}$$
+  </div>
+
+  <div class="info-box">
+    <strong>💡 ¿Cómo evaluar una función por partes?</strong>
+    <p>Para calcular $f(x_0)$, identificamos en qué parte del dominio se encuentra $x_0$ y usamos la expresión correspondiente.</p>
+    <p><strong>Ejemplo:</strong> Con la función anterior, $f(-5) = 2 \cdot (-5) + 1 = -9$ (porque $-5 < -1$)</p>
+    <p>$f(0) = 4$ (porque $-1 \leq 0 \leq 3$)</p>
+    <p>$f(5) = 3$ (porque $5 > 3$)</p>
+  </div>
+
+  <h3>📝 Ejercicios</h3>
+
+  <div class="exercise">
+    <strong>Ejercicio 1:</strong> Dada la función:
+    $$f(x) = \begin{cases} (x+2)^2 + 2 & \text{si } x < -2 \\ 10 & \text{si } x = -2 \\ -2x - 2 & \text{si } -2 < x < 1 \\ (x-1)^3 - 4 & \text{si } x \geq 1 \end{cases}$$
+    Hallar analíticamente las intersecciones con los ejes.
+    <br><button class="btn" onclick="toggleSol('sol-p1')">Ver solución</button>
+    <div class="solution" id="sol-p1">
+      <p><strong>Eje $y$ ($x = 0$):</strong> como $-2 < 0 < 1$, usamos $f(x) = -2x - 2$</p>
+      <p>$f(0) = -2(0) - 2 = -2 \;\Rightarrow\; \textbf{(0, -2)}$</p>
+      <p><strong>Eje $x$ ($f(x) = 0$):</strong> analizamos cada tramo:</p>
+      <ul>
+        <li>Tramo $x < -2$: $(x+2)^2 + 2 = 0 \;\Rightarrow\; (x+2)^2 = -2 \;\Rightarrow\;$ sin solución real</li>
+        <li>Tramo $x = -2$: $f(-2) = 10 \neq 0$</li>
+        <li>Tramo $-2 < x < 1$: $-2x - 2 = 0 \;\Rightarrow\; x = -1$ ✓ (está en el intervalo)</li>
+        <li>Tramo $x \geq 1$: $(x-1)^3 - 4 = 0 \;\Rightarrow\; x = 1 + \sqrt[3]{4} \approx 2{,}59$ ✓</li>
+      </ul>
+      <p><strong>Raíces:</strong> $x = -1$ y $x = 1 + \sqrt[3]{4}$</p>
+    </div>
+  </div>
+
+  <div class="note">
+    💡 <strong>Consejo:</strong> Para graficar funciones por partes, analizá cada tramo por separado, verificando siempre que los valores de $x$ pertenezcan al intervalo correspondiente. Prestá atención a los extremos (abiertos/cerrados).
+  </div>
+</section>
+
+<!-- ============ GUÍA DOCENTE ============ -->
+<section id="docente" class="tab-content">
+  <h2>👩‍ Guía de Reutilización para el Docente</h2>
+  <p>Esta sección está pensada para que puedas <strong>subir, modificar y reutilizar</strong> este recurso en tu práctica áulica.</p>
+
+  <div style="text-align: center; margin: 25px 0;">
+    <a href="index.html" download="Funciones_Matematicas_Prof_Perez.html" class="btn-descarga-secundario">
+       Descargar este recurso (archivo HTML)
+    </a>
+  </div>
+
+  <h3>📤 Subir tu propia versión del HTML</h3>
+  <p>Si querés adaptar este recurso (agregar ejercicios, cambiar colores, modificar contenidos), podés descargar el archivo HTML, editarlo con cualquier editor de texto (Notepad++, VS Code, Sublime Text) y subirlo a tu plataforma.</p>
+
+  <div class="upload-area">
+    <h3>📁 Área de prueba local</h3>
+    <p>Subí un archivo HTML para previsualizarlo en esta misma página:</p>
+    <input type="file" id="fileInput" accept=".html,.htm" onchange="loadHTML(event)">
+    <br>
+    <button class="btn" onclick="previewHTML()">👁️ Previsualizar</button>
+    <button class="btn" onclick="clearPreview()">🗑️ Limpiar</button>
+    <div id="preview-container" style="margin-top:20px; border:2px solid #a8d5ba; border-radius:10px; overflow:hidden;"></div>
+  </div>
+
+  <h3>🔧 ¿Cómo personalizar el recurso?</h3>
+  <ol>
+    <li><strong>Abrir el archivo HTML</strong> con un editor de texto.</li>
+    <li><strong>Modificar los colores:</strong> buscá los códigos hexadecimales (ej: <code>#a8d5ba</code>, <code>#7bc47f</code>) y reemplazalos por los de tu preferencia.</li>
+    <li><strong>Agregar ejercicios:</strong> copiá el bloque <code>&lt;div class="exercise"&gt;...&lt;/div&gt;</code> y personalizalo.</li>
+    <li><strong>Cambiar autoría:</strong> editá el <code>&lt;header&gt;</code> y el <code>&lt;footer&gt;</code>.</li>
+    <li><strong>Modificar los sliders:</strong> en las funciones interactivas, ajustá los atributos <code>min</code>, <code>max</code> y <code>step</code> de los inputs.</li>
+  </ol>
+
+  <h3>🎨 Estructura del archivo</h3>
+  <div class="info-box">
+    <ul>
+      <li><code>&lt;style&gt;</code> → todos los estilos (colores verdes pastel)</li>
+      <li><code>&lt;nav&gt;</code> → botones de navegación entre pestañas</li>
+      <li><code>&lt;section id="..."&gt;</code> → contenido de cada pestaña</li>
+      <li><code>&lt;canvas&gt;</code> → gráficos interactivos</li>
+      <li><code>&lt;script&gt;</code> → lógica de los gráficos y navegación</li>
+      <li><code>MathJax</code> → renderizado de fórmulas LaTeX</li>
+    </ul>
+  </div>
+
+  <h3>📚 Sugerencias didácticas</h3>
+  <ul>
+    <li>Usar los <strong>gráficos interactivos</strong> en el proyector para que los estudiantes visualicen el efecto de cada parámetro.</li>
+    <li>Proponer a los estudiantes que <strong>anticipen</strong> cómo cambiará el gráfico antes de mover los sliders.</li>
+    <li>Combinar el uso de este recurso con <strong>GeoGebra</strong> para profundizar.</li>
+    <li>Los ejercicios tienen <strong>soluciones ocultas</strong> para que el estudiante pueda autocorregirse.</li>
+    <li>Se puede proyectar en clase o compartir el archivo HTML por aula virtual.</li>
+  </ul>
+
+  <h3>⚙️ Requisitos técnicos</h3>
+  <ul>
+    <li>Navegador web moderno (Chrome, Firefox, Edge, Safari).</li>
+    <li>Conexión a internet (solo para cargar MathJax la primera vez; luego queda en caché).</li>
+    <li>No requiere instalación de software adicional.</li>
+    <li>Compatible con dispositivos móviles (diseño responsive).</li>
+  </ul>
+
+  <div class="note">
+    💡 <strong>Ventaja:</strong> Al ser un único archivo HTML, podés compartirlo por email, subirlo al aula virtual, o publicarlo en cualquier servidor web sin necesidad de configuración adicional.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>📐 Funciones Matemáticas</strong></p>
+  <p>Autora: <strong>Prof. PEREZ Jacqueline</strong></p>
+  <p>Universidad Nacional del Comahue · 2026</p>
+  <div class="license-box">
+    <p> Esta obra está bajo una licencia <strong>Creative Commons Atribución-CompartirIgual (CC BY-SA)</strong></p>
+    <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg" alt="Licencia CC BY-SA" onerror="this.style.display='none'">
+    <p style="font-size:0.9em; margin-top:10px;">
+      Eres libre de compartir y adaptar el material, siempre que:<br>
+      ✓ Reconozcas la autoría · ✓ Distribuyas bajo la misma licencia
+    </p>
+    <p style="margin-top:8px;">
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank">Ver licencia completa →</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ============ NAVEGACIÓN POR PESTAÑAS ============
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (id === 'lineal') updateLineal();
+    if (id === 'cuadratica') updateCuad();
+    if (id === 'cubica') updateCub();
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise();
+    }
+  }
+
+  // ============ MOSTRAR/OCULTAR SOLUCIONES ============
+  function toggleSol(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('show');
+    if (el.classList.contains('show') && window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([el]);
+    }
+  }
+
+  // ============ FUNCIÓN PARA DIBUJAR EJES ============
+  function drawAxes(ctx, w, h, scale) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = '#c8e6c9';
+    ctx.lineWidth = 1;
+    for (let i = -10; i <= 10; i++) {
+      ctx.beginPath();
+      ctx.moveTo(w/2 + i*scale, 0);
+      ctx.lineTo(w/2 + i*scale, h);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, h/2 + i*scale);
+      ctx.lineTo(w, h/2 + i*scale);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = '#388e3c';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, h/2);
+    ctx.lineTo(w, h/2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(w/2, 0);
+    ctx.lineTo(w/2, h);
+    ctx.stroke();
+    ctx.fillStyle = '#2d4a3e';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    for (let i = -10; i <= 10; i++) {
+      if (i !== 0) {
+        ctx.fillText(i, w/2 + i*scale, h/2 + 15);
+        ctx.fillText(-i, w/2 - 15, h/2 + i*scale + 4);
+      }
+    }
+    ctx.fillText('x', w - 15, h/2 - 8);
+    ctx.fillText('y', w/2 + 12, 15);
+  }
+
+  // ============ FUNCIÓN LINEAL ============
+  function updateLineal() {
+    const a = parseFloat(document.getElementById('a-lineal').value);
+    const b = parseFloat(document.getElementById('b-lineal').value);
+    document.getElementById('val-a').textContent = a;
+    document.getElementById('val-b').textContent = b;
+    
+    document.getElementById('func-lineal').innerHTML = `$$f(x) = ${a} \\cdot x + ${b}$$`;
+    
+    const canvas = document.getElementById('canvas-lineal');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height, scale = 25;
+    drawAxes(ctx, w, h, scale);
+    ctx.strokeStyle = '#d84315';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let x = -15; x <= 15; x += 0.1) {
+      const y = a * x + b;
+      const px = w/2 + x * scale;
+      const py = h/2 - y * scale;
+      if (x === -15) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.fillStyle = '#388e3c';
+    if (a !== 0) {
+      const raiz = -b / a;
+      ctx.beginPath();
+      ctx.arc(w/2 + raiz*scale, h/2, 6, 0, 2*Math.PI);
+      ctx.fill();
+    }
+    ctx.fillStyle = '#1976d2';
+    ctx.beginPath();
+    ctx.arc(w/2, h/2 - b*scale, 6, 0, 2*Math.PI);
+    ctx.fill();
+    const info = document.getElementById('info-lineal');
+    let raiz = a !== 0 ? (-b/a).toFixed(2) : 'no tiene';
+    let tipo = a > 0 ? 'creciente' : (a < 0 ? 'decreciente' : 'constante');
+    info.innerHTML = `<li>Raíz: $x = ${raiz}$</li><li>Ordenada al origen: $(0, ${b})$</li><li>Función: ${tipo}</li>`;
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([document.getElementById('func-lineal'), info]);
+  }
+
+  // ============ FUNCIÓN CUADRÁTICA ============
+  function updateCuad() {
+    const a = parseFloat(document.getElementById('a-cuad').value);
+    const h = parseFloat(document.getElementById('h-cuad').value);
+    const k = parseFloat(document.getElementById('k-cuad').value);
+    document.getElementById('val-ac').textContent = a;
+    document.getElementById('val-hc').textContent = h;
+    document.getElementById('val-kc').textContent = k;
+    const signo = h >= 0 ? '-' : '+';
+    const hAbs = Math.abs(h);
+    const signoK = k >= 0 ? '+' : '-';
+    const kAbs = Math.abs(k);
+    
+    document.getElementById('func-cuad').innerHTML = `$$f(x) = ${a}(x ${signo} ${hAbs})^2 ${signoK} ${kAbs}$$`;
+    
+    const canvas = document.getElementById('canvas-cuad');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, hCanvas = canvas.height, scale = 25;
+    drawAxes(ctx, w, hCanvas, scale);
+    if (a === 0) return;
+    ctx.strokeStyle = '#d84315';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    let started = false;
+    for (let x = -12; x <= 12; x += 0.05) {
+      const y = a * Math.pow(x - h, 2) + k;
+      const px = w/2 + x * scale;
+      const py = hCanvas/2 - y * scale;
+      if (py < -500 || py > 1000) { started = false; continue; }
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.strokeStyle = '#7bc47f';
+    ctx.setLineDash([5, 5]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(w/2 + h*scale, 0);
+    ctx.lineTo(w/2 + h*scale, hCanvas);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#388e3c';
+    ctx.beginPath();
+    ctx.arc(w/2 + h*scale, hCanvas/2 - k*scale, 7, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#2d4a3e';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText(`V(${h}, ${k})`, w/2 + h*scale + 10, hCanvas/2 - k*scale - 10);
+    const info = document.getElementById('info-cuad');
+    let concavidad = a > 0 ? 'hacia arriba (mínimo en el vértice)' : 'hacia abajo (máximo en el vértice)';
+    let imagen = a > 0 ? `[${k}, +\\infty)` : `(-\\infty, ${k}]`;
+    info.innerHTML = `<li>Vértice: $(${h}, ${k})$</li><li>Eje de simetría: $x = ${h}$</li><li>Concavidad: ${concavidad}</li><li>Imagen: $${imagen}$</li>`;
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([document.getElementById('func-cuad'), info]);
+  }
+
+  // ============ FUNCIÓN CÚBICA ============
+  function updateCub() {
+    const a = parseFloat(document.getElementById('a-cub').value);
+    const h = parseFloat(document.getElementById('h-cub').value);
+    const k = parseFloat(document.getElementById('k-cub').value);
+    document.getElementById('val-acub').textContent = a;
+    document.getElementById('val-hcub').textContent = h;
+    document.getElementById('val-kcub').textContent = k;
+    const signo = h >= 0 ? '-' : '+';
+    const hAbs = Math.abs(h);
+    const signoK = k >= 0 ? '+' : '-';
+    const kAbs = Math.abs(k);
+    
+    document.getElementById('func-cub').innerHTML = `$$f(x) = ${a}(x ${signo} ${hAbs})^3 ${signoK} ${kAbs}$$`;
+    
+    const canvas = document.getElementById('canvas-cub');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, hCanvas = canvas.height, scale = 25;
+    drawAxes(ctx, w, hCanvas, scale);
+    if (a === 0) return;
+    ctx.strokeStyle = '#d84315';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    let started = false;
+    for (let x = -12; x <= 12; x += 0.05) {
+      const y = a * Math.pow(x - h, 3) + k;
+      const px = w/2 + x * scale;
+      const py = hCanvas/2 - y * scale;
+      if (py < -500 || py > 1000) { started = false; continue; }
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.fillStyle = '#388e3c';
+    ctx.beginPath();
+    ctx.arc(w/2 + h*scale, hCanvas/2 - k*scale, 7, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#2d4a3e';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText(`PI(${h}, ${k})`, w/2 + h*scale + 10, hCanvas/2 - k*scale - 10);
+    const info = document.getElementById('info-cub');
+    let tipo = a > 0 ? 'creciente en todo $\\mathbb{R}$' : 'decreciente en todo $\\mathbb{R}$';
+    info.innerHTML = `<li>Punto de inflexión: $(${h}, ${k})$</li><li>Función: ${tipo}</li><li>$\\text{Dom}(f) = \\mathbb{R}$ · $\\text{Im}(f) = \\mathbb{R}$</li>`;
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([document.getElementById('func-cub'), info]);
+  }
+
+  // ============ SUBIDA DE HTML ============
+  let uploadedHTML = '';
+  function loadHTML(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      uploadedHTML = e.target.result;
+      alert('✅ Archivo cargado correctamente. Hacé clic en "Previsualizar".');
+    };
+    reader.readAsText(file);
+  }
+  function previewHTML() {
+    if (!uploadedHTML) { alert('️ Primero cargá un archivo HTML.'); return; }
+    const container = document.getElementById('preview-container');
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '600px';
+    iframe.style.border = 'none';
+    container.innerHTML = '';
+    container.appendChild(iframe);
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(uploadedHTML);
+    iframe.contentDocument.close();
+  }
+  function clearPreview() {
+    document.getElementById('preview-container').innerHTML = '';
+    document.getElementById('fileInput').value = '';
+    uploadedHTML = '';
+  }
+
+  // ============ VERIFICACIÓN DE MATHJAX ============
+  window.addEventListener('load', function() {
+    updateLineal();
+    updateCuad();
+    updateCub();
+    
+    if (window.MathJax) {
+      MathJax.startup.promise.then(() => {
+        MathJax.typesetPromise();
+        console.log('✅ MathJax renderizado correctamente');
+      }).catch((err) => {
+        console.error(' Error en MathJax:', err);
+      });
+    } else {
+      console.error('❌ MathJax no se cargó. Verificá tu conexión a internet.');
+    }
+  });
+</script>
+
+</body>
 </html>
 
         
