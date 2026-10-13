@@ -23,7 +23,7 @@ Este proyecto busca facilitar la comprensión de las funciones matemáticas medi
 
 ### Opción 1: En línea (Recomendado)
 Si este repositorio tiene activado **GitHub Pages**, podés acceder al recurso directamente desde el siguiente enlace:
-👉 **[Insertar aquí el link de tu GitHub Pages, ej: https://tu-usuario.github.io/funciones-matematicas/]**
+👉 **https://github.com/jacqueperez88-collab/funciones-mategral**
 
 ### Opción 2: Localmente
 1. Descargá el archivo `index.html` (desde el botón "Code" -> "Download ZIP" o desde la sección de releases).
