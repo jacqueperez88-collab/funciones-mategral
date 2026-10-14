@@ -334,7 +334,27 @@ window.MathJax = {
 
   <h3>Representación gráfica</h3>
   <p>Una curva en el plano es la gráfica de una función si y sólo si <strong>ninguna recta vertical la interseca más de una vez</strong> (prueba de la recta vertical).</p>
+<h3>Representación gráfica</h3>
+<p>Una curva en el plano es la gráfica de una función si y sólo si <strong>ninguna recta vertical la interseca más de una vez</strong> (prueba de la recta vertical).</p>
 
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 25px 0;">
+  <div style="background: #fff3e0; border: 2px solid #ffb74d; border-radius: 10px; padding: 15px;">
+    <h4 style="color: #e65100; margin-top: 0;">❌ NO es función</h4>
+    <img src="image.png" alt="Círculo x² + y² = 1" style="width: 100%; border-radius: 8px; margin: 10px 0;">
+    <p>La circunferencia $x^2 + y^2 = 1$ <strong>no es una función</strong> porque una recta vertical (como $x = 0.5$) la interseca en <strong>dos puntos</strong>. Un mismo valor de $x$ tiene dos imágenes diferentes de $y$.</p>
+  </div>
+  
+  <div style="background: #e8f5e9; border: 2px solid #7bc47f; border-radius: 10px; padding: 15px;">
+    <h4 style="color: #2e7d32; margin-top: 0;">✅ SÍ es función</h4>
+    <img src="si.funcion.jpg" alt="Función cúbica x³" style="width: 100%; border-radius: 8px; margin: 10px 0;">
+    <p>La función cúbica $f(x) = x^3$ <strong>sí es una función</strong> porque cualquier recta vertical la interseca en <strong>un solo punto</strong>. Cada valor de $x$ tiene una única imagen $y$.</p>
+  </div>
+</div>
+
+<div class="info-box">
+  <strong>🔍 Prueba de la recta vertical:</strong>
+  <p>Si puedes dibujar una recta vertical que corte a la gráfica en más de un punto, entonces la relación <strong>no es una función</strong>. Esto se debe a que violaría la condición de unicidad: un valor de $x$ no puede tener dos o más valores de $y$.</p>
+</div>
   <div class="info-box">
     <strong>🔍 ¿Cómo hallar el dominio?</strong>
     <p>Si no se especifica, el dominio es el mayor conjunto numérico donde tenga sentido la expresión. Por ejemplo:</p>
